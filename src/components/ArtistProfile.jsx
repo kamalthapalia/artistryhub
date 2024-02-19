@@ -7,8 +7,8 @@ import {Link} from "react-router-dom";
 function ArtistProfile({userData}) {
     document.title = "Dashboard";
     const [userArt, setUserArt] = React.useState([]);
-    const [userBroughtArt, setUserBroughtArt] = React.useState([]);
-    const [orders, setOrders] = React.useState([]);
+    const [userSold, setUserSoldArt] = React.useState([]);
+    const [bought, setBought] = React.useState([]);
 
     async function fetchUsersArt() {
         try {
@@ -37,7 +37,25 @@ function ArtistProfile({userData}) {
             });
             const data = await response.json();
             if (data.length > 0) {
-                setUserBroughtArt(data);
+                setUserSoldArt(data);
+            }
+        } catch (error) {
+            // Handle error silently
+        }
+    }
+
+    async function boughtbyuser() {
+        try {
+            const response = await fetch(`http://localhost:8080/artworks/bought/me`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': 'Bearer ' + localStorage.getItem('token'),
+                }
+            });
+            const data = await response.json();
+            if (data.length > 0) {
+                setBought(data);
             }
         } catch (error) {
             // Handle error silently
@@ -47,6 +65,7 @@ function ArtistProfile({userData}) {
     useEffect(() => {
         fetchUsersArt();
         fetchSoldUserArt();
+        boughtbyuser();
     }, [userData]);
 
     return (
@@ -91,7 +110,10 @@ function ArtistProfile({userData}) {
                     <ArtCardGroup data={userArt} edit={true} title={``}/>
                 </div>}
                 {userData.role === 'artist' && <div className={``}>
-                    <ArtCardGroup data={userBroughtArt} title={`Sold Artworks`}/>
+                    <ArtCardGroup data={userSold} title={`Sold Artworks`}/>
+                </div>}
+                {userData.role === 'customer' && <div className={``}>
+                    <ArtCardGroup data={bought} title={`Bought Artworks`}/>
                 </div>}
             </div>
         </div>

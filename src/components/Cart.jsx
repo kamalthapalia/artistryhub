@@ -76,7 +76,7 @@ function Cart() {
 
             toast(`Order Placed Successfully.`);
             localStorage.removeItem('cartItems');
-            window.location.reload();
+            window.location.href = '/me';
         } catch (error) {
             console.error('Error handling checkout:', error.message);
             // Handle error silently or display an error message to the user
