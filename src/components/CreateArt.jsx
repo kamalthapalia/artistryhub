@@ -122,8 +122,8 @@ function CreateArt() {
 
     return (
         <div className={`min-h-[820px]`}>
-            <div className={`flex flex-col justify-center px-24 gap-4`}>
-                <div className={`flex justify-between  items-center`}>
+            <div className={`flex flex-col justify-center md:px-24 gap-4`}>
+                <div className={`flex md:flex-row flex-col   justify-between  items-center`}>
                     <p className={`text-2xl font-semibold py-6`}>Publish new art for sale.</p><Link to={`/addcategory`}>
                     <button
                         className={`flex items-center h-fit gap-2 border border-gray-400 justify-center  px-10 py-1.5 rounded-2xl hover:bg-rose-100 transition`}

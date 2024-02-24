@@ -20,7 +20,7 @@ function AddCategory() {
             }
 
             const data = await res.json();
-            alert(data.error);
+            toast(`Category added successfully`, {type: "success"})
         } catch (error) {
             toast(`Failed to add category: ${error.message}`, {type: "error"})
         }

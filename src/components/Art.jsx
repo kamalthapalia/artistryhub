@@ -6,6 +6,7 @@ import {CiTextAlignCenter} from 'react-icons/ci';
 import {useParams} from 'react-router-dom';
 import ArtCardGroup from './ArtCardGroup';
 import {toast} from "react-toastify";
+import Reviews from "./Reviews";
 
 function Art({role}) {
     const {id} = useParams();
@@ -18,6 +19,8 @@ function Art({role}) {
     const [itemExists, setItemExists] = useState(false); // Initialize with false
     const [artworks, setArtworks] = useState([]);
     const [artistName, setArtistName] = useState();
+    const [reviews, setReviews] = useState([]);
+    const [review, setReview] = useState([]);
     const [categoryName, setCategoryName] = useState();
     const [sold, setSold] = useState(false);
 
@@ -133,6 +136,57 @@ function Art({role}) {
         }
     };
 
+    async function handleAddReview() {
+        try {
+            const res = await fetch(`http://localhost:8080/reviews/add`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({
+                    artwork_id: id,
+                    review: review
+                })
+            });
+            //
+            // if (!res.ok) {
+            //     throw new Error('Failed to add review');
+            // }
+
+            const data = await res.json();
+            if (data?.id > 0) {
+                getReviews();
+                toast(`Review added successfully`, {type: "success"})
+                setReview("");
+            }
+            if (data.code == 400) {
+                toast(`Review not added`, {type: "error"})
+            }
+        } catch (error) {
+            // Handle the error condition appropriately
+        }
+    }
+
+    //get reviews by artid
+    async function getReviews() {
+        try {
+            const res = await fetch(`http://localhost:8080/reviews/post/${id}`);
+            const data = await res.json();
+            if (data.code == 400) {
+                toast(`No reviews found`, {type: "error"})
+            } else {
+                setReviews(data);
+            }
+        } catch (error) {
+            // Handle the error condition appropriately
+        }
+    }
+
+    useEffect(() => {
+        getReviews().catch(error => {
+        });
+    }, []);
 
     function goToLogin() {
         window.location.href = '/login'
@@ -184,6 +238,23 @@ function Art({role}) {
                             </button>}
 
                         </div>
+                    </div>
+                    <div className={`mt-16`}>
+                        <textarea value={review}
+                                  onChange={event => setReview(event.target.value)}
+                                  className={`border resize-none rounded border-gray-400 w-full px-2 py-1 outline-none`}
+                                  name="review"
+                                  id="review"
+                                  cols="30"
+                                  placeholder={`Write a review for ${name}...`}
+                                  rows={`6`}/>
+                        <button
+                            onClick={handleAddReview}
+                            className={`border-2 w-full border-blue-600 mt-4  py-1.5 rounded-2xl font-bold text-blue-500 hover:bg-blue-100 transition`}
+                        >
+                            Submit Review
+                        </button>
+                        <Reviews data={reviews}/>
                     </div>
                     <div className={`mt-16`}>
                         <ArtCardGroup data={artworks.slice(0, 8)} title={`More like this.`}/>
