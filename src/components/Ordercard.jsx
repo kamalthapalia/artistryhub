@@ -75,6 +75,7 @@ function Ordercard({order}) {
                     </div>
                     <div className="flex items-center gap-2 font-semibold">
                         <FaRegUser/>
+                        
                         <p>{artistName}</p>
                     </div>
                 </div>
