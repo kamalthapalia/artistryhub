@@ -5,11 +5,15 @@ import {FaRegUser} from 'react-icons/fa';
 import {AiOutlineClose} from 'react-icons/ai';
 import CartCard from './CartCard';
 import {toast} from "react-toastify";
+import {type} from "@testing-library/user-event/dist/type";
 
-function Cart() {
+function Cart({user}) {
     const [cartItems, setCartItems] = useState([]);
     const [grossTotal, setGrossTotal] = useState(0);
     const [netTotal, setNetTotal] = useState(0);
+    const [address, setAddress] = useState("");
+    const [phone, setPhone] = useState("");
+
 
     useEffect(() => {
         const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -36,14 +40,37 @@ function Cart() {
         localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
     };
 
+    function isValidPhoneNumber(phone) {
+        const phoneRegex = /^\d{10,}$/; // Match 10 or more digits
+        return phoneRegex.test(phone);
+    }
+
+    function isValidAddress(address) {
+        return address.trim() !== '';
+    }
+
     async function handleCheckout() {
+        if (!isValidAddress(address)) {
+            toast('Please provide a valid address.');
+            return;
+        }
+
+        if (!isValidPhoneNumber(phone)) {
+            toast('Please provide a valid phone number.');
+            return;
+        }
         try {
             const res = await fetch('http://localhost:8080/orders/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': `Bearer ${localStorage.getItem('token')}`
-                }
+                },
+                body: JSON.stringify({
+                    address: address,
+                    phone: phone,
+                    total: netTotal
+                })
             });
 
             if (!res.ok) {
@@ -62,7 +89,7 @@ function Cart() {
                         },
                         body: JSON.stringify({
                             order_id: orderData.id,
-                            artwork_id: item.id,
+                            artwork_id: item.id
                         })
                     });
 
@@ -101,12 +128,44 @@ function Cart() {
                             Gross Total: <span className="font-semibold">Rs.{grossTotal}</span>
                         </p>
                         <p className="mt-auto text-xl font-semibold">Net total: Rs.{netTotal}</p>
-                        <button
-                            onClick={handleCheckout}
-                            className={`border-2 border-rose-500 mt-12 py-1.5 rounded-2xl font-bold text-rose-500 hover:bg-rose-100 transition`}>Checkout
-                        </button>
+
                     </div>
                 </div>
+                <div className={`my-10 flex flex-col gap-4`}>
+                    <p className={`font-semibold`}>Customer: {user?.username}</p>
+                    <div className={`flex flex-col gap-4`}>
+                        <div className="flex flex-col">
+                            <label htmlFor="address" className="font-semibold">
+                                Address
+                            </label>
+                            <input
+                                onChange={(e) => setAddress(e.target.value)}
+                                className="outline-none border-b border-gray-400 w-full"
+                                type="text"
+                                id="address"
+                                name="address"
+                                placeholder="Enter your address"
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label htmlFor="phone" className="font-semibold">
+                                Phone
+                            </label>
+                            <input
+                                onChange={(e) => setPhone(e.target.value)}
+                                className="outline-none border-b border-gray-400 w-full"
+                                type="text"
+                                id="phone"
+                                name="phone"
+                                placeholder="Enter your phone number"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <button
+                    onClick={handleCheckout}
+                    className={`border-2 w-full  border-rose-500 py-1.5 rounded-2xl font-bold text-rose-500 hover:bg-rose-100 transition`}>Checkout
+                </button>
             </>}
         </div>
     );

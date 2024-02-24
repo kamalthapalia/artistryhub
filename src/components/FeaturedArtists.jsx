@@ -27,7 +27,7 @@ function FeaturedArtists() {
         <div className={`my-8`}>
             <div>
                 <div>
-                    <p className={`text-2xl font-semibold my-3 mb-8`}>Featured Artists</p>
+                    <p className={`text-2xl font-medium py-10`}>Featured Artists</p>
 
                     <div className={`grid md:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-8`}>
                         {featuredArtists.slice(0, 3).map((artist) => (

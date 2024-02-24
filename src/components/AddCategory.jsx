@@ -21,6 +21,7 @@ function AddCategory() {
 
             const data = await res.json();
             toast(`Category added successfully`, {type: "success"})
+            setCategory("")
         } catch (error) {
             toast(`Failed to add category: ${error.message}`, {type: "error"})
         }
@@ -35,6 +36,7 @@ function AddCategory() {
                             Category Name
                         </label>
                         <input
+                            value={category}
                             onChange={(e) => setCategory(e.target.value)}
                             className="outline-none border-b border-gray-400 "
                             type="text"

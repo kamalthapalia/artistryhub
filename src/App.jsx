@@ -25,6 +25,10 @@ import PrivacyPolicy from "./components/PrivacyPolicy";
 import Termsofuse from "./components/Termsofuse";
 import Search from "./pages/Search";
 import {ToastContainer} from "react-toastify";
+import Pagenotfound from "./components/Pagenotfound";
+import Filterbyprice from "./components/Filterbyprice";
+import Filterbycategory from "./components/Filterbycategory";
+import Myorders from "./components/Myorders";
 
 function App() {
     const [userData, setUserData] = useState({});
@@ -54,6 +58,7 @@ function App() {
         <div className="px-3 md:px-0">
             <ToastContainer/>
             <Navbar/>
+            <Myorders/>
             <div className={`container mx-auto`}>
                 <Routes>
                     <Route path={'/'} element={<Home/>}/>
@@ -63,7 +68,7 @@ function App() {
                     <Route path={'terms'} element={<Termsofuse/>}/>
                     <Route path={'/search/:search'} element={<Search/>}/>
                     {/*<Route path={'/login'} element={<Login/>}/>*/}
-                    <Route path={'/cart'} element={userData.id ? <Cart/> : <Navigate to="/login"/>}/>
+                    <Route path={'/cart'} element={userData.id ? <Cart user={userData}/> : <Navigate to="/login"/>}/>
                     <Route path={'/login'} element={userData.id ? <Navigate to="/"/> : <Login/>}/>
                     <Route path={'/signup'} element={userData.id ? <Navigate to="/"/> : <Signup/>}/>
                     <Route path={'/me'}
@@ -73,6 +78,10 @@ function App() {
                     <Route path={'/edit/:id'} element={userData ? <CreateArt/> : <Navigate to="/login"/>}/>
                     <Route path={'/addcategory'} element={userData ? <AddCategory/> : <Navigate to="/login"/>}/>
                     <Route path={'/editdetails'} element={userData ? <EditDetails/> : <Navigate to="/login"/>}/>
+                    <Route path={'/price/:min/:max'} element={<Filterbyprice/>}/>
+                    <Route path={'/category/:categoryid'} element={<Filterbycategory/>}/>
+                    <Route path={'/*'} element={<Pagenotfound/>}/>
+
                 </Routes>
             </div>
             <Footer/>

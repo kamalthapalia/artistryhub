@@ -86,6 +86,7 @@ function ArtistProfile({userData}) {
                     onClick={() => {
                         window.location.reload();
                         localStorage.removeItem('token')
+                        localStorage.removeItem('cartItems')
                         window.location.href = '/';
                     }}
                     className={`flex items-center gap-2 my-4 border border-gray-400 py-1.5 px-6 rounded-2xl hover:bg-rose-100 transition`}>

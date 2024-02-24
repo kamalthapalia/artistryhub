@@ -38,7 +38,7 @@ function Art({role}) {
             setArtistId(data.artist);
             setSold(data.sold);
             setItemExists(isItemInCart(id));
-            document.title = data.title;
+            document.title = !data.title ? "Invalid artwork" : data.title;
             if (data.code === 400) {
                 // Handle the error condition appropriately
             }
@@ -186,7 +186,7 @@ function Art({role}) {
     useEffect(() => {
         getReviews().catch(error => {
         });
-    }, []);
+    }, [id]);
 
     function goToLogin() {
         window.location.href = '/login'

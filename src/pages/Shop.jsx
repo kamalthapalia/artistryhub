@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import ArtCardGroup from "../components/ArtCardGroup";
 
-function Shop() {
+function Shop({category}) {
     document.title = 'Art Gallery | Shop';
     const [artworks, setArtworks] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
@@ -31,6 +31,11 @@ function Shop() {
         getCategories();
         getArtworks();
     }, []);
+    useEffect(() => {
+        if (category) {
+            setSelectedCategory(category);
+        }
+    }, [category])
 
     function handleCategoryChange(event) {
         setSelectedCategory(event.target.value);
@@ -46,25 +51,27 @@ function Shop() {
 
     return (
         <div className={`min-h-[750px]`}>
-            <p className={`font-semibold text-lg`}>Filter by category.</p>
-            {categories.length > 0 && (
-                <select
-                    value={selectedCategory}
-                    onChange={handleCategoryChange}
-                    className={`flex w-full items-center gap-2 border border-gray-400 px-10 py-1.5 rounded-2xl transition`}
-                    name=""
-                    id=""
-                >
-                    {/* Render options dynamically */}
-                    <option value="">All Categories</option>
-                    {categories.map((cat) => (
-                        <option key={cat.id} value={cat.id}>
-                            {cat.name}
-                        </option>
-                    ))}
-                </select>
-            )}
-            <ArtCardGroup data={filterArtworksByCategory()} title={`Filtered Arts`}/>
+            <div className={`py-4 flex flex-col  gap-3`}>
+                <p className={`font-semibold text-2xl`}>Filter by category.</p>
+                {categories.length > 0 && (
+                    <select
+                        value={selectedCategory}
+                        onChange={handleCategoryChange}
+                        className={`flex w-full items-center gap-2 border border-gray-400 px-10 py-1.5 rounded-2xl transition`}
+                        name=""
+                        id=""
+                    >
+                        {/* Render options dynamically */}
+                        <option value="">All Categories</option>
+                        {categories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                                {cat.name}
+                            </option>
+                        ))}
+                    </select>
+                )}
+            </div>
+            <ArtCardGroup data={filterArtworksByCategory()} title={`Artworks`}/>
         </div>
     );
 }

@@ -6,7 +6,7 @@ function ArtCardGroup({data, edit, title}) {
     }, []);
     return (
         <div>
-            <p className="md:text-2xl sm:text-xl text-lg font-semibold my-8 underline underline-offset-4">{title}</p>
+            <p className="md:text-2xl sm:text-xl text-lg font-medium my-8 ">{title}</p>
             <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-10">
                 {data.length > 0 && data?.map((artwork, index) => (
                     <Artcard key={index} edit={edit} artwork={artwork}/>

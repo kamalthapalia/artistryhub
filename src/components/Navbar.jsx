@@ -2,6 +2,7 @@ import React from 'react';
 import {AiOutlineSearch, AiOutlineShoppingCart, AiOutlineUser} from "react-icons/ai";
 import {Link} from "react-router-dom";
 import {toast} from "react-toastify";
+import image from "../artistryhub-high-resolution-logo-transparent.png"
 
 function Navbar() {
     // search
@@ -28,10 +29,10 @@ function Navbar() {
     return (
         <nav className={`py-4 md:px-14 border-b `}>
             <Link to={"/"}>
-                <p className={`md:hidden pb-4 font-medium`}>artistryhub</p>
+                <img src={image} alt="ArtistryHub" className={`md:hidden h-12 my-4`}/>
             </Link>
             <div className={`flex justify-between`}>
-                <p className={`text-xl font-bold hidden sm:block`}><Link to={"/"}>artistryhub</Link></p>
+                <Link to={'/'}> <img src={image} alt="ArtistryHub" className={`hidden md:block h-20`}/></Link>
                 <div className={`flex gap-3 items-center md:justify-end justify-between w-full`}>
                     <div className={`flex items-center  gap-1 border border-gray-400 px-3 py-1.5 rounded-2xl`}>
                         <input type="text" className={`outline-none`} onChange={handleSearchChange}
