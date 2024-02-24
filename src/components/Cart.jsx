@@ -117,13 +117,13 @@ function Cart({user}) {
             </div>}
             {cartItems.length > 0 && <>
                 <p className="text-2xl font-semibold py-3">Cart</p>
-                <div className="grid grid-cols-2">
+                <div className="grid md:grid-cols-2">
                     <div className="flex flex-col gap-4">
                         {cartItems.map((item, index) => (
                             <CartCard item={item} key={index} removeFromCart={removeFromCart}/>
                         ))}
                     </div>
-                    <div className="text-right flex flex-col max-h-[750px]">
+                    <div className="md:text-right py-8 flex flex-col max-h-[750px] min-h-[130px]">
                         <p>
                             Gross Total: <span className="font-semibold">Rs.{grossTotal}</span>
                         </p>
@@ -131,7 +131,7 @@ function Cart({user}) {
 
                     </div>
                 </div>
-                <div className={`my-10 flex flex-col gap-4`}>
+                <div className={`md:my-10 my-5 flex flex-col gap-4`}>
                     <p className={`font-semibold`}>Customer: {user?.username}</p>
                     <div className={`flex flex-col gap-4`}>
                         <div className="flex flex-col">
