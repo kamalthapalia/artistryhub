@@ -35,7 +35,7 @@ function FeaturedArtists() {
                                 <div className={`flex flex-col justify-center items-center`}>
                                     <img
                                         className={`h-[250px] w-[250px] rounded-full object-cover`}
-                                        src={`https://cdn-icons-png.flaticon.com/512/9131/9131529.png`}
+                                        src={`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png`}
                                         alt={artist.username}
                                     />
                                     <p className={`md:text-xl text-lg font-medium mt-3 text-center`}>{artist.username}</p>

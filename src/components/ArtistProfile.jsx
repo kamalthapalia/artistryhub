@@ -1,14 +1,17 @@
 import React, {useEffect} from 'react';
-import {AiOutlineEdit, AiOutlineLogout, AiOutlinePlus} from "react-icons/ai";
+import {AiFillCalendar, AiFillDollarCircle, AiOutlineEdit, AiOutlineLogout, AiOutlinePlus} from "react-icons/ai";
 import Artcard from "./Artcard";
 import ArtCardGroup from "./ArtCardGroup";
 import {Link} from "react-router-dom";
+import Ordercard from "./Ordercard";
+import {FaLocationPin} from "react-icons/fa6";
 
 function ArtistProfile({userData}) {
     document.title = "Dashboard";
     const [userArt, setUserArt] = React.useState([]);
     const [userSold, setUserSoldArt] = React.useState([]);
     const [bought, setBought] = React.useState([]);
+    const [orders, setOrders] = React.useState([{}]);
 
     async function fetchUsersArt() {
         try {
@@ -62,6 +65,28 @@ function ArtistProfile({userData}) {
         }
     }
 
+    async function getOrders() {
+        try {
+            //fetch with header token
+            const res = await fetch('http://localhost:8080/orders/my/first', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
+            const data = await res.json();
+            setOrders(data)
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        }
+    }
+
+    useEffect(() => {
+        //fetch my orders
+        getOrders();
+    }, []);
+
     useEffect(() => {
         fetchUsersArt();
         fetchSoldUserArt();
@@ -113,6 +138,28 @@ function ArtistProfile({userData}) {
                 {userData.role === 'artist' && <div className={``}>
                     <ArtCardGroup data={userSold} title={`Sold Artworks`}/>
                 </div>}
+                <div>
+                    {userData.role === 'customer' && <div className={`flex flex-col gap-3`}>
+                        <p className={`text-2xl font-medium`}>My orders</p>
+                        {orders?.length > 0 && orders?.map((order, index) => (
+                            <div className={`flex justify-between  py-3 border-b border-gray-400`}>
+                                <div>
+                                    <p className={`flex items-center gap-2`}>
+                                        <AiFillCalendar/>{order?.order_date ? order.order_date.split('T')[0] : 'No date available'}
+                                    </p>
+                                    <p className={`flex items-center gap-2`}><AiFillDollarCircle/>Rs.{order?.total}</p>
+                                    <p className={`flex items-center gap-2`}><FaLocationPin/>{order?.address}</p>
+                                </div>
+                                <Link to={`/order/${order.order_id}`}>
+                                    <button className={`font-medium`}>See Details</button>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>}
+                    {orders?.length < 1 && <div className={`h-[200px] justify-center text-lg flex  items-center`}>
+                        No orders yet.
+                    </div>}
+                </div>
                 {userData.role === 'customer' && <div className={``}>
                     <ArtCardGroup data={bought} title={`Bought Artworks`}/>
                 </div>}

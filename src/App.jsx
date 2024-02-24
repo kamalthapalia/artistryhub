@@ -28,7 +28,7 @@ import {ToastContainer} from "react-toastify";
 import Pagenotfound from "./components/Pagenotfound";
 import Filterbyprice from "./components/Filterbyprice";
 import Filterbycategory from "./components/Filterbycategory";
-import Myorders from "./components/Myorders";
+import Orderpage from "./components/Orderpage";
 
 function App() {
     const [userData, setUserData] = useState({});
@@ -58,7 +58,6 @@ function App() {
         <div className="px-3 md:px-0">
             <ToastContainer/>
             <Navbar/>
-            <Myorders/>
             <div className={`container mx-auto`}>
                 <Routes>
                     <Route path={'/'} element={<Home/>}/>
@@ -80,6 +79,8 @@ function App() {
                     <Route path={'/editdetails'} element={userData ? <EditDetails/> : <Navigate to="/login"/>}/>
                     <Route path={'/price/:min/:max'} element={<Filterbyprice/>}/>
                     <Route path={'/category/:categoryid'} element={<Filterbycategory/>}/>
+                    <Route path={`/order/:id`}
+                           element={userData ? <Orderpage user={userData}/> : <Navigate to="/login"/>}/>
                     <Route path={'/*'} element={<Pagenotfound/>}/>
 
                 </Routes>

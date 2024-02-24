@@ -13,7 +13,7 @@ function ArtCardGroup({data, edit, title}) {
                 ))}
             </div>
             {data?.length === 0 &&
-                <div className="py-32 md:text-2xl text-lg font-semibold text-center">No Artworks Found</div>}
+                <div className={`h-[200px] justify-center flex text-lg items-center`}>No Artworks Found.</div>}
 
         </div>
     );
