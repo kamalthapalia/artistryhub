@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import ArtCardGroup from "../components/ArtCardGroup";
+import route from "../utils/help";
 
 function Search() {
     const {search} = useParams();
@@ -9,7 +10,7 @@ function Search() {
 
     function searchArtworks() {
         try {
-            fetch(`http://localhost:8080/artworks/search/${search}`, {
+            fetch(`${route}/artworks/search/${search}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
 import React from 'react';
 import {toast} from "react-toastify";
+import route from "../utils/help";
 
 function EditDetails() {
     const [email, setEmail] = React.useState('');
@@ -9,7 +10,7 @@ function EditDetails() {
     async function updatee() {
         try {
             document.title = "Update Details";
-            const res = await fetch("http://localhost:8080/users/update", {
+            const res = await fetch(`${route}/users/update`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

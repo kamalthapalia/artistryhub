@@ -5,6 +5,7 @@ import ArtCardGroup from "./ArtCardGroup";
 import {Link} from "react-router-dom";
 import Ordercard from "./Ordercard";
 import {FaLocationPin} from "react-icons/fa6";
+import route from "../utils/help";
 
 function ArtistProfile({userData}) {
     document.title = "Dashboard";
@@ -15,7 +16,7 @@ function ArtistProfile({userData}) {
 
     async function fetchUsersArt() {
         try {
-            const response = await fetch(`http://localhost:8080/artworks/user/${userData.id}`, {
+            const response = await fetch(`${route}/artworks/user/${userData.id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -31,7 +32,7 @@ function ArtistProfile({userData}) {
 
     async function fetchSoldUserArt() {
         try {
-            const response = await fetch(`http://localhost:8080/artworks/sold/me`, {
+            const response = await fetch(`${route}/artworks/sold/me`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ function ArtistProfile({userData}) {
 
     async function boughtbyuser() {
         try {
-            const response = await fetch(`http://localhost:8080/artworks/bought/me`, {
+            const response = await fetch(`${route}/artworks/bought/me`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,7 +69,7 @@ function ArtistProfile({userData}) {
     async function getOrders() {
         try {
             //fetch with header token
-            const res = await fetch('http://localhost:8080/orders/my/first', {
+            const res = await fetch(`${route}/orders/my/first`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -98,7 +99,7 @@ function ArtistProfile({userData}) {
             <div className={`flex flex-col items-center`}>
                 <p className={`w-full py-4 text-2xl font-medium`}>Dashboard</p>
                 <img className={`w-[250px] my-5 h-[250px] object-cover rounded-full`}
-                     src="https://news.harvard.edu/wp-content/uploads/2014/10/hello-kitty-wallpaper-37_605.jpg" alt=""/>
+                     src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt=""/>
                 <div className={` flex flex-col items-center mb-6`}>
                     <p className={`font-semibold text-lg`}>{userData.username}</p>
                     <p>{userData.role}</p>

@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom'; // Import Link from React Router
 import {LiaPaintBrushSolid} from 'react-icons/lia';
 import {IoPricetags} from 'react-icons/io5';
 import {FaRegUser} from 'react-icons/fa';
@@ -7,6 +8,8 @@ import {useParams} from 'react-router-dom';
 import ArtCardGroup from './ArtCardGroup';
 import {toast} from "react-toastify";
 import Reviews from "./Reviews";
+import QRCode from 'qrcode.react';
+import route from "../utils/help";
 
 function Art({role}) {
     const {id} = useParams();
@@ -23,12 +26,15 @@ function Art({role}) {
     const [review, setReview] = useState([]);
     const [categoryName, setCategoryName] = useState();
     const [sold, setSold] = useState(false);
+    const [showARView, setShowARView] = useState(false); // Initialize showARView state
+    const [qrCodeValue, setQrCodeValue] = useState('');
+    const [arContentURL, setArContentURL] = useState('');
 
     // Fetch art
     async function getArt() {
         window.scrollTo(0, 0);
         try {
-            const res = await fetch(`http://localhost:8080/artworks/artwork/${id}`);
+            const res = await fetch(`${route}/artworks/artwork/${id}`);
             const data = await res.json();
             setName(data.title);
             setPrice(data.price);
@@ -50,7 +56,7 @@ function Art({role}) {
     // Fetch artworks
     async function getArtworks() {
         try {
-            const res = await fetch('http://localhost:8080/artworks/all');
+            const res = await fetch(`${route}/artworks/all`);
             const data = await res.json();
             setArtworks(data);
         } catch (error) {
@@ -61,7 +67,7 @@ function Art({role}) {
     // Fetch artist name
     async function getArtistName() {
         try {
-            const res = await fetch(`http://localhost:8080/users/user/${artistId}`);
+            const res = await fetch(`${route}/users/user/${artistId}`);
             const data = await res.json();
             setArtistName(data.username);
         } catch (error) {
@@ -72,7 +78,7 @@ function Art({role}) {
     // Fetch category name
     async function getCategoryName() {
         try {
-            const res = await fetch(`http://localhost:8080/categories/${category}`);
+            const res = await fetch(`${route}/categories/${category}`);
             const data = await res.json();
             setCategoryName(data.name);
 
@@ -138,7 +144,7 @@ function Art({role}) {
 
     async function handleAddReview() {
         try {
-            const res = await fetch(`http://localhost:8080/reviews/add`, {
+            const res = await fetch(`${route}/reviews/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -171,7 +177,7 @@ function Art({role}) {
     //get reviews by artid
     async function getReviews() {
         try {
-            const res = await fetch(`http://localhost:8080/reviews/post/${id}`);
+            const res = await fetch(`${route}/reviews/post/${id}`);
             const data = await res.json();
             if (data.code == 400) {
                 toast(`No reviews found`, {type: "error"})
@@ -191,15 +197,33 @@ function Art({role}) {
     function goToLogin() {
         window.location.href = '/login'
     }
-
-
+    
+    const handleViewARClick = () => {
+        // Assuming your AR content URL is located in the public directory and named ARContent.html
+        const arContentURL = `${window.location.origin}/ARContent.html?artworkId=${id}`;
+    
+        // Set the QR code value and URL state variables
+        setQrCodeValue(arContentURL);
+        setArContentURL(arContentURL);
+    
+        // Set showARView to true to display QR code and URL
+        setShowARView(true);
+    
+        // Store the AR content data in localStorage
+        localStorage.setItem('arContentData', JSON.stringify({ qrCodeValue: arContentURL }));
+    
+        // Redirect the user to ARViewPage
+        window.location.href = '/ar-view';
+    };
+    
+    
     return (
         <div className={`mt-8`}>
             {artistId &&
                 <>
                     <div className={`grid md:grid-cols-2`}>
                         <img className={`max-h-[750px] w-full object-cover`}
-                             src={`http://localhost:8080/image/${image}`}
+                             src={`${route}/image/${image}`}
                              alt=""/>
                         <div className={`flex mt-5 sm:mt-0 sm flex-col justify-between md:px-6 `}>
                             <div>
@@ -221,13 +245,21 @@ function Art({role}) {
                                     <p>{desc}</p>
                                 </div>
                             </div>
-                            <button
-                                onClick={() => {
-                                    toast(`aug rality`)
-                                }}
-                                className={`sm:mt-auto mt-8 border-2 border-green-600 mt-12  py-1.5 rounded-2xl font-bold text-green-600 hover:bg-green-100 transition`}>View
-                                in AR
-                            </button>
+                            <Link to="/ar-view">
+                               <button
+                                   onClick={() => handleViewARClick(id)} // Pass the id of the artwork
+                                   className={`border-4 w-full border-black-900 mt-4  py-1.5 rounded-2xl font-bold text-black-500 hover:bg-blue-100 transition`}
+                               >
+                                    View in AR
+                                </button>
+                           </Link>
+                            {/* Conditionally render QR code and URL when showARView is true */}
+                            {showARView && (
+                                <div>
+                                      <p>URL: {arContentURL}</p> {/* Display the AR content URL */}
+                                     <QRCode value={qrCodeValue} /> {/* Generate QR code for the AR content URL */}
+                                </div>
+                            )}
 
                             {role !== `artist` && <button
                                 onClick={localStorage.getItem('token') ? handleAddToCart : goToLogin}
@@ -239,6 +271,7 @@ function Art({role}) {
 
                         </div>
                     </div>
+                    
                     <div className={`mt-16`}>
                         <textarea value={review}
                                   onChange={event => setReview(event.target.value)}
@@ -250,7 +283,7 @@ function Art({role}) {
                                   rows={`6`}/>
                         <button
                             onClick={handleAddReview}
-                            className={`border-2 w-full border-blue-600 mt-4  py-1.5 rounded-2xl font-bold text-blue-500 hover:bg-blue-100 transition`}
+                            className={`border-4 w-full border-black-900 mt-4  py-1.5 rounded-2xl font-bold text-black-500 hover:bg-blue-100 transition`}
                         >
                             Submit Review
                         </button>

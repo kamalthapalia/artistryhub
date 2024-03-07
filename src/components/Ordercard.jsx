@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {LiaPaintBrushSolid} from "react-icons/lia";
 import {FaRegUser} from "react-icons/fa";
 import {Link} from "react-router-dom";
+import route from "../utils/help";
 
 function Ordercard({order}) {
     const [artistName, setArtistName] = React.useState();
@@ -12,7 +13,7 @@ function Ordercard({order}) {
 
     async function getArtistName() {
         try {
-            const res = await fetch(`http://localhost:8080/users/user/${order?.artist_id}`);
+            const res = await fetch(`${route}/users/user/${order?.artist_id}`);
             const data = await res.json();
             setArtistName(data.username);
         } catch (error) {
@@ -22,12 +23,12 @@ function Ordercard({order}) {
 
     async function getArtwork() {
         try {
-            const res = await fetch(`http://localhost:8080/artworks/artwork/order/${order?.artwork_id}`);
+            const res = await fetch(`${route}/artworks/artwork/order/${order?.artwork_id}`);
             const data = await res.json();
             setImage(data.image);
             setTitle(data.title);
             setPrice(data.price);
-            const categoryRes = await fetch(`http://localhost:8080/categories/${data.category}`);
+            const categoryRes = await fetch(`${route}/categories/${data.category}`);
             const categoryData = await categoryRes.json();
             setCategoryName(categoryData.name);
         } catch (error) {
@@ -37,7 +38,7 @@ function Ordercard({order}) {
 
     async function removeOrderitem() {
         try {
-            const res = await fetch(`http://localhost:8080/orders/orderitem/${order?.order_item_id}`, {
+            const res = await fetch(`${route}/orders/orderitem/${order?.order_item_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,7 +65,7 @@ function Ordercard({order}) {
         <div className="flex flex-col cursor-pointer">
             <img
                 className="w-full h-[300px] object-cover"
-                src={`http://localhost:8080/image/${image}`}
+                src={`${route}/image/${image}`}
                 alt={title}/>
             <div className="flex mt-3 justify-between">
                 <div>

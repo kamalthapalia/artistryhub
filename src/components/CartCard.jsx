@@ -3,6 +3,7 @@ import {AiOutlineClose} from "react-icons/ai";
 import {LiaPaintBrushSolid} from "react-icons/lia";
 import {FaRegUser} from "react-icons/fa";
 import {IoPricetags} from "react-icons/io5";
+import route from "../utils/help";
 
 function CartCard({item, removeFromCart}) {
     const [data, setData] = React.useState(item);
@@ -17,7 +18,7 @@ function CartCard({item, removeFromCart}) {
                 <>
                     <img
                         className={`h-[200px] w-full object-cover`}
-                        src={`http://localhost:8080/image/${data?.image}`}
+                        src={`${route}/image/${data?.image}`}
                         alt=""
                     />
                     <div className={`flex flex-col relative`}>

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {toast} from "react-toastify";
+import route from "../utils/help";
 
 function Login() {
     document.title = "Login";
@@ -10,7 +11,8 @@ function Login() {
 
     async function login() {
         try {
-            const res = await fetch("http://localhost:8080/users/login", {
+            let res;
+            res = await fetch(`${route}/users/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
+import route from "../utils/help";
 
 function FeaturedArtists() {
     const [featuredArtists, setFeaturedArtists] = useState([]);
 
     async function getFeaturedArtists() {
         try {
-            const res = await fetch('http://localhost:8080/users/artists', {
+            const res = await fetch(`${route}/users/artists`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

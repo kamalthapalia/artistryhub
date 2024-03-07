@@ -6,6 +6,7 @@ import {AiOutlineClose} from 'react-icons/ai';
 import CartCard from './CartCard';
 import {toast} from "react-toastify";
 import {type} from "@testing-library/user-event/dist/type";
+import route from "../utils/help";
 
 function Cart({user}) {
     const [cartItems, setCartItems] = useState([]);
@@ -60,7 +61,7 @@ function Cart({user}) {
             return;
         }
         try {
-            const res = await fetch('http://localhost:8080/orders/add', {
+            const res = await fetch(`${route}/orders/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,7 +82,7 @@ function Cart({user}) {
 
             if (orderData?.id > 1) {
                 await Promise.all(cartItems.map(async (item) => {
-                    const itemRes = await fetch('http://localhost:8080/orderItems/add', {
+                    const itemRes = await fetch(`${route}/orderItems/add`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

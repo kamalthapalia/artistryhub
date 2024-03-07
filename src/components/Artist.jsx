@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {AiFillEdit, AiOutlineEdit} from "react-icons/ai";
 import {useParams} from "react-router-dom";
 import ArtCardGroup from "./ArtCardGroup";
+import route from "../utils/help";
 
 function Artist() {
 
@@ -11,7 +12,7 @@ function Artist() {
 
     const fetchArtist = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/users/user/${id}`);
+            const response = await fetch(`${route}/users/user/${id}`);
             const data = await response.json();
             setArtist(data);
         } catch (error) {
@@ -21,7 +22,7 @@ function Artist() {
 
     const fetchArtworks = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/artworks/user/${id}`);
+            const response = await fetch(`${route}/artworks/user/${id}`);
             const data = await response.json();
             if (data.length > 0)
                 setArtworks(data);

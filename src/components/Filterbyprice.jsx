@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import ArtCardGroup from "./ArtCardGroup";
+import route from "../utils/help";
 
 function Filterbyprice() {
     const {min, max} = useParams();
@@ -21,7 +22,7 @@ function Filterbyprice() {
 
     const getArtworksBetween = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/artworks/price/${min}/${max}`);
+            const response = await fetch(`${route}/artworks/price/${min}/${max}`);
             const data = await response.json();
             setArtworks(data);
             // if(data.code==400){

@@ -4,6 +4,7 @@ import ArtCardGroup from "../components/ArtCardGroup";
 import FeaturedArtists from "../components/FeaturedArtists";
 import {Link} from "react-router-dom";
 import Testimonials from "../components/Testimonials";
+import route from "../utils/help";
 
 function Home() {
     document.title = 'Art Gallery | Home';
@@ -12,7 +13,7 @@ function Home() {
 
     async function getArtworks() {
         try {
-            const res = await fetch('http://localhost:8080/artworks/all');
+            const res = await fetch(`${route}/artworks/all`);
             const data = await res.json();
             setArtworks(data);
         } catch (error) {
@@ -22,7 +23,7 @@ function Home() {
 
     async function getCategories() {
         try {
-            const res = await fetch('http://localhost:8080/categories/');
+            const res = await fetch(`${route}/categories/`);
             const data = await res.json();
             setCategories(data);
         } catch (error) {
@@ -71,7 +72,7 @@ function Home() {
                     <p className={`font-md text-2xl text-center py-2`}>Filter by Category</p>
                     <div className={`flex flex-wrap items-center justify-center gap-3 pt-2 pb-6`}>
                         {categories?.slice(0, 4).map((category, index) => (
-                            <Link to={`/category/${category.id}`}>
+                            <Link key={index} to={`/category/${category.id}`}>
                                 <button
                                     className={`border border-gray-400 rounded-3xl font-semibold px-8 py-2 transition hover:bg-gray-100 font-medium`}>
                                     {category.name}

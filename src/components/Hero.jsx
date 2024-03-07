@@ -5,8 +5,8 @@ function Hero() {
     return (
         <div className={`relative h-[700px]`}>
 
-            <div className={` h-full w-full flex flex-col justify-center items-center`}>
-                <p className={`lg:text-6xl md:text-4xl text-2xl font-semibold text-white`}>Elevate your space with
+            <div className={` h-full w-full flex flex-col justify-center items-center px-4`}>
+                <p className={`lg:text-6xl md:text-4xl text-2xl font-semibold text-center  text-white`}>Elevate your space with
                     curated art</p>
                 <p className={`text-lg mt-2 text-red-200 font-bold`}>Explore and acquire today.</p>
                 <Link

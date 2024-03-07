@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {AiOutlinePlus} from "react-icons/ai";
 import {Link, useParams} from "react-router-dom";
 import {toast} from "react-toastify";
+import route from "../utils/help";
 
 function CreateArt() {
     const {id} = useParams();
@@ -15,7 +16,7 @@ function CreateArt() {
     //fetch artwork from id
     async function getArtwork() {
         try {
-            const res = await fetch(`http://localhost:8080/artworks/artwork/${id}`);
+            const res = await fetch(`${route}/artworks/artwork/${id}`);
             const data = await res.json();
             setName(data.title);
             setPrice(data.price);
@@ -32,7 +33,7 @@ function CreateArt() {
         document.title = "Create Art";
         if (id) {
             try {
-                const res = await fetch(`http://localhost:8080/artworks/update/${id}`, {
+                const res = await fetch(`${route}/artworks/update/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -60,7 +61,7 @@ function CreateArt() {
                 formData.append('category', category);
                 formData.append('description', desc);
                 formData.append('image', image);
-                const res = await fetch(`http://localhost:8080/artworks/add`, {
+                const res = await fetch(`${route}/artworks/add`, {
                     method: "POST",
                     headers: {
                         'authorization': `Bearer ${localStorage.getItem('token')}`
@@ -79,7 +80,7 @@ function CreateArt() {
     //functions to get all categories form server
     async function getCategories() {
         try {
-            const res = await fetch('http://localhost:8080/categories/');
+            const res = await fetch(`${route}/categories/`);
             const data = await res.json();
             setCategories(data);
         } catch (error) {
@@ -89,7 +90,7 @@ function CreateArt() {
 
     const deleteProd = async () => {
         try {
-            const res = await fetch(`http://localhost:8080/artworks/delete/${id}`, {
+            const res = await fetch(`${route}/artworks/delete/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {LiaPaintBrushSolid} from "react-icons/lia";
 import {FaRegUser} from "react-icons/fa";
 import {Link} from "react-router-dom";
+import route from "../utils/help";
 
 function Artcard({artwork, edit}) {
     const [artistName, setArtistName] = React.useState();
@@ -10,7 +11,7 @@ function Artcard({artwork, edit}) {
 
     async function getArtistName() {
         try {
-            const res = await fetch(`http://localhost:8080/users/user/${artist}`);
+            const res = await fetch(`${route}/users/user/${artist}`);
             const data = await res.json();
             setArtistName(data.username);
         } catch (error) {
@@ -20,7 +21,7 @@ function Artcard({artwork, edit}) {
 
     async function getCategoryName() {
         try {
-            const res = await fetch(`http://localhost:8080/categories/${category}`);
+            const res = await fetch(`${route}/categories/${category}`);
             const data = await res.json();
             setCategoryName(data.name);
         } catch (error) {
@@ -44,7 +45,7 @@ function Artcard({artwork, edit}) {
             <div className="flex flex-col cursor-pointer">
                 <img
                     className="w-full h-[300px] object-cover"
-                    src={`http://localhost:8080/image/${image}`}
+                    src={`${route}/image/${image}`}
                     alt={title}/>
                 <div className="flex mt-3 justify-between">
                     <div>

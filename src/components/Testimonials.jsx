@@ -24,7 +24,7 @@ function Testimonials() {
         <div>
             <p className={`py-10 text-2xl font-medium `}>Testimonials:</p>
             <div className={`grid gap-10  md:grid-cols-3`}>
-                {testimonials.map(test => (<div className={`py-14 px-4 bg-rose-50/50 shadow-xl rounded-3xl`}>
+                {testimonials.map(test => (<div  className={`py-14 px-4 bg-rose-50/50 shadow-xl rounded-3xl`}>
                     <div>
                         <p className={`mb-6 text-lg`}>{test.text}</p>
                         <div className={`flex items-center gap-4`}>

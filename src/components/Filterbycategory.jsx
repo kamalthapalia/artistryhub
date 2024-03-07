@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ArtCardGroup from "./ArtCardGroup";
 import {useParams} from "react-router-dom";
+import route from "../utils/help";
 
 function Filterbycategory() {
     const {categoryid} = useParams();
@@ -9,7 +10,7 @@ function Filterbycategory() {
 
     const getArtworksByCategory = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/artworks/category/${categoryid}`);
+            const response = await fetch(`${route}/artworks/category/${categoryid}`);
             const data = await response.json();
             setArtworks(data);
         } catch (error) {
@@ -20,7 +21,7 @@ function Filterbycategory() {
 
     const getCategoryName = async () => {
         try {
-            const res = await fetch(`http://localhost:8080/categories/${categoryid}`);
+            const res = await fetch(`${route}/categories/${categoryid}`);
             const data = await res.json();
             setCategoryName(data.name);
         } catch (error) {

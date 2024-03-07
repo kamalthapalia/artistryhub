@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {toast} from "react-toastify";
+import route from "../utils/help";
 
 function AddCategory() {
     document.title = "Add Category";
     const [category, setCategory] = useState("")
     const addCategory = async () => {
         try {
-            const res = await fetch('http://localhost:8080/categories/add', {
+            const res = await fetch(`${route}/categories/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

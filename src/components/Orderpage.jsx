@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import Ordercard from "./Ordercard";
+import route from "../utils/help";
 
 function Orderpage({user}) {
     const [orders, setOrders] = React.useState([{}]);
@@ -10,7 +11,7 @@ function Orderpage({user}) {
     async function getOrders() {
         try {
             //fetch with header token
-            const res = await fetch(`http://localhost:8080/orders/${id}`, {
+            const res = await fetch(`${route}/orders/${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,7 +28,7 @@ function Orderpage({user}) {
     async function cancelorder() {
         try {
             //fetch with header token
-            const res = await fetch(`http://localhost:8080/orders/cancel/${id}`, {
+            const res = await fetch(`${route}/orders/cancel/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

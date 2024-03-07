@@ -18,6 +18,8 @@ import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
 
+
+
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import EditDetails from "./components/EditDetails";
@@ -29,18 +31,24 @@ import Pagenotfound from "./components/Pagenotfound";
 import Filterbyprice from "./components/Filterbyprice";
 import Filterbycategory from "./components/Filterbycategory";
 import Orderpage from "./components/Orderpage";
+import ARViewPage from './components/ARViewPage';
+import route from "./utils/help";
+import Camera from "./components/Camera"; // Import the new component for displaying QR code and URL
+ 
+
 
 function App() {
     const [userData, setUserData] = useState({});
 
     const fetchUserData = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/users/me`, {
+            const response = await fetch(`${route}/users/me`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "authorization": "Bearer " + localStorage.getItem("token"),
                 },
+                
             });
             const data = await response.json();
             setUserData(data)
@@ -63,15 +71,15 @@ function App() {
                     <Route path={'/'} element={<Home/>}/>
                     <Route path={'/art/:id'} element={<Art role={userData?.role}/>}/>
                     <Route path={'/artist/:id'} element={<Artist/>}/>
-                    <Route path={'privacypolicy'} element={<PrivacyPolicy/>}/>
-                    <Route path={'terms'} element={<Termsofuse/>}/>
+                    <Route path={'/privacypolicy'} element={<PrivacyPolicy/>}/>
+                    <Route path={'/terms'} element={<Termsofuse/>}/>
+                    <Route path={'/camera'} element={<Camera/>}/>
                     <Route path={'/search/:search'} element={<Search/>}/>
                     {/*<Route path={'/login'} element={<Login/>}/>*/}
                     <Route path={'/cart'} element={userData.id ? <Cart user={userData}/> : <Navigate to="/login"/>}/>
                     <Route path={'/login'} element={userData.id ? <Navigate to="/"/> : <Login/>}/>
                     <Route path={'/signup'} element={userData.id ? <Navigate to="/"/> : <Signup/>}/>
-                    <Route path={'/me'}
-                           element={userData ? <ArtistProfile userData={userData}/> : <Navigate to="/login"/>}/>
+                    <Route path={'/me'} element={userData ? <ArtistProfile userData={userData}/> : <Navigate to="/login"/>}/>
                     <Route path={'/shop'} element={<Shop/>}/>
                     <Route path={'/create'} element={userData ? <CreateArt/> : <Navigate to="/login"/>}/>
                     <Route path={'/edit/:id'} element={userData ? <CreateArt/> : <Navigate to="/login"/>}/>
@@ -79,10 +87,9 @@ function App() {
                     <Route path={'/editdetails'} element={userData ? <EditDetails/> : <Navigate to="/login"/>}/>
                     <Route path={'/price/:min/:max'} element={<Filterbyprice/>}/>
                     <Route path={'/category/:categoryid'} element={<Filterbycategory/>}/>
-                    <Route path={`/order/:id`}
-                           element={userData ? <Orderpage user={userData}/> : <Navigate to="/login"/>}/>
+                    <Route path={`/order/:id`} element={userData ? <Orderpage user={userData}/> : <Navigate to="/login"/>}/>
                     <Route path={'/*'} element={<Pagenotfound/>}/>
-
+                    <Route path="/ar-view" element={<ARViewPage />} />
                 </Routes>
             </div>
             <Footer/>

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import {toast} from "react-toastify";
+import route from "../utils/help";
 
 function Signup() {
     const [username, setUsername] = useState("");
@@ -46,7 +47,7 @@ function Signup() {
 
     async function signUpUser() {
         try {
-            const res = await fetch("http://localhost:8080/users/register", {
+            const res = await fetch(`${route}/users/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

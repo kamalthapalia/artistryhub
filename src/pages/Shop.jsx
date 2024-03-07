@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ArtCardGroup from "../components/ArtCardGroup";
+import route from "../utils/help";
 
 function Shop({category}) {
     document.title = 'Art Gallery | Shop';
@@ -9,7 +10,7 @@ function Shop({category}) {
 
     async function getArtworks() {
         try {
-            const res = await fetch('http://localhost:8080/artworks/all');
+            const res = await fetch(`${route}/artworks/all`);
             const data = await res.json();
             setArtworks(data);
         } catch (error) {
@@ -19,7 +20,7 @@ function Shop({category}) {
 
     async function getCategories() {
         try {
-            const res = await fetch('http://localhost:8080/categories/');
+            const res = await fetch(`${route}/categories/`);
             const data = await res.json();
             setCategories(data);
         } catch (error) {

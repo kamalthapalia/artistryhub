@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
+import route from "../utils/help";
 
 function Reviewcard({review}) {
     const [username, setUsername] = useState('');
 
     async function getArtistName(id) {
         try {
-            const res = await fetch(`http://localhost:8080/users/user/${id}`);
+            const res = await fetch(`${route}/users/user/${id}`);
             const data = await res.json();
             setUsername(data.username);
         } catch (error) {

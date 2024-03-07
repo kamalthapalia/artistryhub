@@ -34,8 +34,8 @@ function Navbar() {
             <div className={`flex justify-between`}>
                 <Link to={'/'}> <img src={image} alt="ArtistryHub" className={`hidden md:block h-20`}/></Link>
                 <div className={`flex gap-3 items-center md:justify-end justify-between w-full`}>
-                    <div className={`flex items-center  gap-1 border border-gray-400 px-3 py-1.5 rounded-2xl`}>
-                        <input type="text" className={`outline-none`} onChange={handleSearchChange}
+                    <div className={`flex items-center w-fit gap-1 border border-gray-400 px-3 py-1.5 rounded-2xl`}>
+                        <input type="text" className={`outline-none w-[105px] sm:w-auto`} onChange={handleSearchChange}
                                placeholder={`Search`}
                                name=""/>
                         <AiOutlineSearch onClick={handleSearch} size={`1.2em`}/>
